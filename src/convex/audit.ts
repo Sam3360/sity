@@ -85,6 +85,7 @@ const CATEGORY_LABELS: Record<CategoryKey, string> = {
   security: "Security",
   bestPractices: "Best Practices",
 };
+void CATEGORY_LABELS;
 
 export interface RawChecks {
   findings: Finding[];
@@ -646,9 +647,63 @@ export function buildReport(
   };
 }
 
+/**
+ * Server-side guard: the action is public, so validate independently of the
+ * client. Blocks non-http(s) protocols, internal hostnames, and private/
+ * reserved IP literals (basic SSRF hardening).
+ */
+export function assertScanAllowed(rawUrl: string): void {
+  let parsed: URL;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    throw new Error("Invalid URL");
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error("Only http and https URLs can be scanned");
+  }
+  const host = parsed.hostname.toLowerCase();
+  const blockedNames = new Set(["localhost", "metadata.google.internal"]);
+  if (
+    blockedNames.has(host) ||
+    host.endsWith(".local") ||
+    host.endsWith(".internal") ||
+    host.endsWith(".localhost")
+  ) {
+    throw new Error("Refusing to scan internal hostnames");
+  }
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
+    const [a, b] = host.split(".").map(Number);
+    const isPrivate =
+      a === 0 ||
+      a === 10 ||
+      a === 127 ||
+      (a === 100 && b >= 64 && b <= 127) ||
+      (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168);
+    if (isPrivate) {
+      throw new Error("Refusing to scan private IP addresses");
+    }
+  }
+  if (host.startsWith("[") && host.endsWith("]")) {
+    const inner = host.slice(1, -1).toLowerCase();
+    if (
+      inner === "::1" ||
+      inner === "::" ||
+      inner.startsWith("fc") ||
+      inner.startsWith("fd") ||
+      inner.startsWith("fe80")
+    ) {
+      throw new Error("Refusing to scan private IP addresses");
+    }
+  }
+}
+
 export const scanUrl = action({
   args: { url: v.string() },
   handler: async (_ctx, { url }): Promise<AuditReport> => {
+    assertScanAllowed(url);
     const page = await fetchPage(url);
     if (page.status >= 400) {
       throw new Error(`HTTP ${page.status}`);

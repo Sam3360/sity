@@ -98,6 +98,14 @@ export function toAuditError(err: unknown): AuditError {
       hint: "Many sites block automated visitors. Try scanning a different URL.",
     };
   }
+  if (msg.includes("404") || msg.includes("cannot find") || /\bnot found\b/.test(msg)) {
+    return {
+      code: "SERVER_ERROR",
+      title: "That page doesn't exist",
+      message: "The server responded, but there's no page at this address.",
+      hint: "Check the path — or scan the site root instead (e.g. example.com).",
+    };
+  }
   if (/\b5\d\d\b/.test(msg) || msg.includes("bad gateway") || msg.includes("server error")) {
     return {
       code: "SERVER_ERROR",
