@@ -6,7 +6,7 @@ import type { AuditError, AuditErrorCode } from "@/types/sity";
  */
 export function parseScanInput(raw: string): {
   url?: string;
-  error?: { code: AuditErrorCode; message: string };
+  error?: { code: AuditErrorCode; message: string; hint?: string };
 } {
   const input = raw.trim();
   if (!input) {

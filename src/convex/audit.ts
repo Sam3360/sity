@@ -196,7 +196,7 @@ export function runChecks(page: PageFetch, requestedUrl: string): RawChecks {
       status: missingHeaders.length >= 3 ? "fail" : "warn",
       category: "security",
       impact: missingHeaders.map((h) => h.why).join(" "),
-      fix: missingHeaders.map((h) => h.fix).join(" "),
+      fix: missingHeaders.map((h) => h.fix).join(" · "),
       details: `Received headers include: ${Object.keys(headers).slice(0, 12).join(", ")}`,
     });
   }

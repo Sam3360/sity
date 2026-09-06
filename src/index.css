@@ -94,11 +94,61 @@
   --scanline: oklch(0.55 0.09 148 / 8%);
 }
 
+/* Dark mode — the same terminal theme at night: deep warm-gray surfaces with
+   the same green/amber status accents, tuned for AA contrast. */
+.dark {
+  --background: oklch(0.205 0.008 106);
+  --foreground: oklch(0.92 0.008 106);
+  --card: oklch(0.245 0.008 106);
+  --card-foreground: oklch(0.92 0.008 106);
+  --popover: oklch(0.245 0.008 106);
+  --popover-foreground: oklch(0.92 0.008 106);
+  --primary: oklch(0.72 0.13 150);
+  --primary-foreground: oklch(0.18 0.01 150);
+  --secondary: oklch(0.28 0.01 106);
+  --secondary-foreground: oklch(0.9 0.008 106);
+  --muted: oklch(0.28 0.01 106);
+  --muted-foreground: oklch(0.68 0.01 106);
+  --accent: oklch(0.3 0.012 106);
+  --accent-foreground: oklch(0.92 0.008 106);
+  --destructive: oklch(0.66 0.19 26);
+  --border: oklch(0.34 0.01 106);
+  --input: oklch(0.34 0.01 106);
+  --ring: oklch(0.72 0.13 150);
+  --chart-1: oklch(0.72 0.13 150);
+  --chart-2: oklch(0.75 0.12 75);
+  --chart-3: oklch(0.66 0.19 26);
+  --chart-4: oklch(0.68 0.01 106);
+  --chart-5: oklch(0.72 0.13 150);
+  --sidebar: oklch(0.245 0.008 106);
+  --sidebar-foreground: oklch(0.92 0.008 106);
+  --sidebar-primary: oklch(0.72 0.13 150);
+  --sidebar-primary-foreground: oklch(0.18 0.01 150);
+  --sidebar-accent: oklch(0.3 0.012 106);
+  --sidebar-accent-foreground: oklch(0.92 0.008 106);
+  --sidebar-border: oklch(0.34 0.01 106);
+  --sidebar-ring: oklch(0.72 0.13 150);
+
+  --status-pass: oklch(0.75 0.14 150);
+  --status-pass-soft: oklch(0.32 0.05 150);
+  --status-warn: oklch(0.78 0.13 80);
+  --status-warn-soft: oklch(0.34 0.05 80);
+  --status-fail: oklch(0.7 0.18 27);
+  --status-fail-soft: oklch(0.33 0.05 27);
+  --status-info: oklch(0.72 0.09 220);
+  --scanline: oklch(0.75 0.13 150 / 6%);
+}
+
 /* Console palette for the scanning animation — a light terminal,
    not a dark one: same hue family as the page, inverted panels. */
 .terminal-surface {
   --background: oklch(0.945 0.008 106);
   --foreground: oklch(0.26 0.012 106);
+}
+
+.dark .terminal-surface {
+  --background: oklch(0.245 0.008 106);
+  --foreground: oklch(0.92 0.008 106);
 }
 
 @layer base {
