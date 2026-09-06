@@ -7,6 +7,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { useScan } from "@/hooks/use-scan";
 import { useScanHistory } from "@/hooks/use-scan-history";
+import { DEMO_PROFILES } from "@/lib/demoProfiles";
 import { formatDate } from "@/utils/format";
 import type { AuditReport } from "@/types/sity";
 
@@ -54,9 +55,9 @@ export default function Report() {
     if (!displayReport) return;
     reset();
     if (displayReport.mode === "demo") {
-      const name = displayReport.demoProfileName ?? "";
-      const demo = name.includes("excellent") ? "excellent" : name.includes("poor") ? "poor" : "average";
-      startedKeyRef.current = `demo|`;
+      const match = DEMO_PROFILES.find((p) => p.url === displayReport.url);
+      const demo = match?.key ?? "average";
+      startedKeyRef.current = `${demo}|`;
       setParams({ demo });
       void runScan("", "demo", demo);
     } else {
@@ -71,7 +72,7 @@ export default function Report() {
     (input: string, mode: "real" | "demo", demoKey?: string) => {
       reset();
       if (mode === "demo" && demoKey) {
-        startedKeyRef.current = `demo|`;
+        startedKeyRef.current = `${demoKey}|`;
         setParams({ demo: demoKey });
         void runScan("", "demo", demoKey);
       } else {

@@ -10,6 +10,7 @@ export function Footer() {
         </div>
         <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono">
           <a href="/" className="hover:text-foreground">home</a>
+          <a href="/dashboard" className="hover:text-foreground">workspace</a>
           <a href="/report?demo=average" className="hover:text-foreground">demo</a>
           <a href="https://developer.mozilla.org/en-US/docs/Web/Performance" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
             docs↗

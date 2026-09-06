@@ -39,6 +39,12 @@ export function Header({ entries, onOpenEntry, onDeleteEntry, onClearHistory }: 
         </a>
 
         <div className="flex items-center gap-2">
+          <a
+            href="/dashboard"
+            className="rounded-md px-2 py-1 font-mono text-xs text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
+          >
+            workspace
+          </a>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2 font-mono text-xs">
