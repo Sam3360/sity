@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import type { AuditReport, ScanHistoryEntry } from "@/types/sity";
 
 const STORAGE_KEY = "sity.scan-history.v1";
@@ -46,11 +46,7 @@ function makeId(): string {
 }
 
 export function useScanHistory() {
-  const [entries, setEntries] = useState<ScanHistoryEntry[]>([]);
-
-  useEffect(() => {
-    setEntries(loadEntries());
-  }, []);
+  const [entries, setEntries] = useState<ScanHistoryEntry[]>(() => loadEntries());
 
   const addReport = useCallback((report: AuditReport) => {
     setEntries((prev) => {

@@ -17,13 +17,7 @@ function readInitial(): Theme {
 }
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    const initial = readInitial();
-    setTheme(initial);
-    document.documentElement.classList.toggle("dark", initial === "dark");
-  }, []);
+  const [theme, setTheme] = useState<Theme>(() => readInitial());
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");

@@ -20,18 +20,15 @@ const COLOR: Record<"pass" | "warn" | "fail", string> = {
 function useCountUp(target: number, animate: boolean, duration = 900): number {
   const [value, setValue] = useState(animate ? 0 : target);
   useEffect(() => {
-    if (!animate) {
-      setValue(target);
-      return;
-    }
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setValue(target);
-      return;
-    }
+    if (!animate) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Reduced motion still needs the final value; a zero-length "animation"
+    // lands there on the next frame without animating.
+    const dur = reduced ? 0 : duration;
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
+      const p = Math.min(1, (now - start) / dur);
       // easeOutCubic
       const eased = 1 - Math.pow(1 - p, 3);
       setValue(Math.round(target * eased));
@@ -40,7 +37,7 @@ function useCountUp(target: number, animate: boolean, duration = 900): number {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [target, animate, duration]);
-  return value;
+  return animate ? value : target;
 }
 
 export function ScoreRing({ score, size = 160, label, animate = true, className }: ScoreRingProps) {

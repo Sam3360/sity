@@ -88,16 +88,22 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api || !setApi) return
-    setApi(api)
+    // Defer so the parent's state update doesn't run synchronously inside
+    // this effect (which can trigger cascading renders).
+    const id = window.setTimeout(() => setApi(api), 0)
+    return () => window.clearTimeout(id)
   }, [api, setApi])
 
   React.useEffect(() => {
     if (!api) return
-    onSelect(api)
+    // Defer the initial state sync so it doesn't run synchronously inside
+    // this effect (which can trigger cascading renders).
+    const id = window.setTimeout(() => onSelect(api), 0)
     api.on("reInit", onSelect)
     api.on("select", onSelect)
 
     return () => {
+      window.clearTimeout(id)
       api?.off("select", onSelect)
     }
   }, [api, onSelect])
