@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Loader2, Play, TriangleAlert } from "lucide-react";
+import { ChevronDown, Loader2, TriangleAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { parseScanInput } from "@/utils/url";
 import { DEMO_PROFILES } from "@/lib/demoProfiles";

@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { statusGlyph, statusLabel } from "@/utils/format";
+import { statusLabel } from "@/utils/format";
 import type { Finding } from "@/types/sity";
 
 interface FindingItemProps {

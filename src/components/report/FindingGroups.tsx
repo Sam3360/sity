@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { FindingItem } from "./FindingItem";
 import type { Finding } from "@/types/sity";
@@ -12,13 +11,11 @@ function Group({
   title,
   count,
   findings,
-  defaultOpen,
 }: {
   tone: "fail" | "warn" | "pass";
   title: string;
   count: number;
   findings: Finding[];
-  defaultOpen: boolean;
 }) {
   const meta = {
     fail: { glyph: "✕", cls: "status-fail", box: "bg-fail-soft/50 border-fail-soft/40", dot: "●" },
@@ -58,9 +55,9 @@ export function FindingGroups({ findings }: FindingGroupsProps) {
 
   return (
     <div className="space-y-6">
-      <Group tone="fail" title="Needs attention" count={failed.length} findings={failed} defaultOpen />
-      <Group tone="warn" title="Could improve" count={warned.length} findings={warned} defaultOpen />
-      <Group tone="pass" title="Looking good" count={passed.length} findings={passed} defaultOpen={false} />
+      <Group tone="fail" title="Needs attention" count={failed.length} findings={failed} />
+      <Group tone="warn" title="Could improve" count={warned.length} findings={warned} />
+      <Group tone="pass" title="Looking good" count={passed.length} findings={passed} />
     </div>
   );
 }

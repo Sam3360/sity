@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export default function Landing() {
   const navigate = useNavigate();
-  const { entries, addReport, removeEntry, clearHistory } = useScanHistory();
+  const { entries, removeEntry, clearHistory } = useScanHistory();
 
   const handleScan = (input: string, mode: "real" | "demo", demoKey?: string) => {
     if (mode === "demo" && demoKey) {

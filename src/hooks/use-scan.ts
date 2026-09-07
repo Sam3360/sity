@@ -32,6 +32,7 @@ function makeId(): string {
   }
   return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
+void makeId;
 
 export function useScan() {
   const scanUrlAction = useAction(api.audit.scanUrl);
